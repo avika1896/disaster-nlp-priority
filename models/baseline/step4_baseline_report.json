@@ -1,0 +1,23 @@
+{
+  "task": "informative_label",
+  "text_column": "text_clean",
+  "logreg_validation": {
+    "accuracy": 0.7936651583710407,
+    "macro_precision": 0.7386057457337436,
+    "macro_recall": 0.7572020038354828,
+    "macro_f1": 0.7464106548994661
+  },
+  "svm_validation": {
+    "accuracy": 0.7918552036199095,
+    "macro_precision": 0.7337435897435898,
+    "macro_recall": 0.7327290684971967,
+    "macro_f1": 0.7332321473368875
+  },
+  "chosen_model": "logistic_regression",
+  "test_metrics": {
+    "accuracy": 0.7742081447963801,
+    "macro_precision": 0.719076284399256,
+    "macro_recall": 0.7458929934489209,
+    "macro_f1": 0.7287159523502027
+  }
+}

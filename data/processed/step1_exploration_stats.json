@@ -1,0 +1,665 @@
+{
+  "files": [
+    {
+      "file": "crisismmd_datasplit_all/task_damage_text_img_dev.tsv",
+      "rows": 529,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label"
+      ],
+      "guessed_id_column": "tweet_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 10,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_harvey": 138,
+          "hurricane_maria": 131,
+          "hurricane_irma": 109,
+          "california_wildfires": 86,
+          "iraq_iran_earthquake": 27,
+          "mexico_earthquake": 22,
+          "srilanka_floods": 16
+        },
+        "label": {
+          "severe_damage": 332,
+          "mild_damage": 126,
+          "little_or_no_damage": 71
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_damage_text_img_test.tsv",
+      "rows": 529,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label"
+      ],
+      "guessed_id_column": "tweet_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 6,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_maria": 133,
+          "hurricane_harvey": 132,
+          "hurricane_irma": 120,
+          "california_wildfires": 87,
+          "iraq_iran_earthquake": 23,
+          "mexico_earthquake": 21,
+          "srilanka_floods": 13
+        },
+        "label": {
+          "severe_damage": 332,
+          "mild_damage": 126,
+          "little_or_no_damage": 71
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_damage_text_img_train.tsv",
+      "rows": 2468,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label"
+      ],
+      "guessed_id_column": "tweet_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 182,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_harvey": 622,
+          "hurricane_maria": 598,
+          "hurricane_irma": 566,
+          "california_wildfires": 358,
+          "mexico_earthquake": 135,
+          "iraq_iran_earthquake": 123,
+          "srilanka_floods": 66
+        },
+        "label": {
+          "severe_damage": 1548,
+          "mild_damage": 587,
+          "little_or_no_damage": 333
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_humanitarian_text_img_dev.tsv",
+      "rows": 2237,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str",
+        "label_text": "str",
+        "label_image": "str",
+        "label_text_image": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "guessed_id_column": "tweet_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0,
+        "label_text": 0,
+        "label_image": 0,
+        "label_text_image": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 0,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_maria": 585,
+          "hurricane_irma": 555,
+          "hurricane_harvey": 525,
+          "california_wildfires": 217,
+          "mexico_earthquake": 177,
+          "srilanka_floods": 111,
+          "iraq_iran_earthquake": 67
+        },
+        "label": {
+          "not_humanitarian": 889,
+          "other_relevant_information": 605,
+          "rescue_volunteering_or_donation_effort": 353,
+          "infrastructure_and_utility_damage": 251,
+          "affected_individuals": 71,
+          "injured_or_dead_people": 42,
+          "vehicle_damage": 22,
+          "missing_or_found_people": 4
+        },
+        "label_text": {
+          "other_relevant_information": 844,
+          "not_humanitarian": 625,
+          "rescue_volunteering_or_donation_effort": 453,
+          "infrastructure_and_utility_damage": 164,
+          "injured_or_dead_people": 70,
+          "affected_individuals": 67,
+          "vehicle_damage": 8,
+          "missing_or_found_people": 6
+        },
+        "label_image": {
+          "not_humanitarian": 1088,
+          "infrastructure_and_utility_damage": 405,
+          "other_relevant_information": 338,
+          "rescue_volunteering_or_donation_effort": 281,
+          "affected_individuals": 77,
+          "vehicle_damage": 38,
+          "injured_or_dead_people": 8,
+          "missing_or_found_people": 2
+        },
+        "label_text_image": {
+          "Negative": 1239,
+          "Positive": 998
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_humanitarian_text_img_test.tsv",
+      "rows": 2237,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str",
+        "label_text": "str",
+        "label_image": "str",
+        "label_text_image": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "guessed_id_column": "tweet_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0,
+        "label_text": 0,
+        "label_image": 0,
+        "label_text_image": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 0,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_harvey": 572,
+          "hurricane_irma": 559,
+          "hurricane_maria": 518,
+          "california_wildfires": 216,
+          "mexico_earthquake": 176,
+          "srilanka_floods": 123,
+          "iraq_iran_earthquake": 73
+        },
+        "label": {
+          "not_humanitarian": 849,
+          "other_relevant_information": 578,
+          "rescue_volunteering_or_donation_effort": 340,
+          "infrastructure_and_utility_damage": 319,
+          "affected_individuals": 86,
+          "injured_or_dead_people": 41,
+          "vehicle_damage": 19,
+          "missing_or_found_people": 5
+        },
+        "label_text": {
+          "other_relevant_information": 844,
+          "not_humanitarian": 625,
+          "rescue_volunteering_or_donation_effort": 454,
+          "infrastructure_and_utility_damage": 164,
+          "injured_or_dead_people": 70,
+          "affected_individuals": 67,
+          "vehicle_damage": 7,
+          "missing_or_found_people": 6
+        },
+        "label_image": {
+          "not_humanitarian": 1055,
+          "infrastructure_and_utility_damage": 458,
+          "other_relevant_information": 331,
+          "rescue_volunteering_or_donation_effort": 256,
+          "affected_individuals": 88,
+          "vehicle_damage": 36,
+          "injured_or_dead_people": 10,
+          "missing_or_found_people": 3
+        },
+        "label_text_image": {
+          "Negative": 1282,
+          "Positive": 955
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_humanitarian_text_img_train.tsv",
+      "rows": 13608,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str",
+        "label_text": "str",
+        "label_image": "str",
+        "label_text_image": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "guessed_id_column": "image_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0,
+        "label_text": 0,
+        "label_image": 0,
+        "label_text_image": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 2024,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_maria": 3453,
+          "hurricane_irma": 3390,
+          "hurricane_harvey": 3337,
+          "california_wildfires": 1156,
+          "mexico_earthquake": 1027,
+          "srilanka_floods": 788,
+          "iraq_iran_earthquake": 457
+        },
+        "label": {
+          "not_humanitarian": 5260,
+          "other_relevant_information": 3294,
+          "rescue_volunteering_or_donation_effort": 2323,
+          "infrastructure_and_utility_damage": 1905,
+          "affected_individuals": 424,
+          "injured_or_dead_people": 244,
+          "vehicle_damage": 134,
+          "missing_or_found_people": 24
+        },
+        "label_text": {
+          "other_relevant_information": 4817,
+          "not_humanitarian": 3970,
+          "rescue_volunteering_or_donation_effort": 2867,
+          "infrastructure_and_utility_damage": 1102,
+          "injured_or_dead_people": 393,
+          "affected_individuals": 384,
+          "vehicle_damage": 46,
+          "missing_or_found_people": 29
+        },
+        "label_image": {
+          "not_humanitarian": 6565,
+          "infrastructure_and_utility_damage": 2761,
+          "other_relevant_information": 1860,
+          "rescue_volunteering_or_donation_effort": 1694,
+          "affected_individuals": 397,
+          "vehicle_damage": 230,
+          "injured_or_dead_people": 92,
+          "missing_or_found_people": 9
+        },
+        "label_text_image": {
+          "Negative": 7482,
+          "Positive": 6126
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_informative_text_img_dev.tsv",
+      "rows": 2237,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str",
+        "label_text": "str",
+        "label_image": "str",
+        "label_text_image": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "guessed_id_column": "tweet_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0,
+        "label_text": 0,
+        "label_image": 0,
+        "label_text_image": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 0,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_harvey": 581,
+          "hurricane_maria": 552,
+          "hurricane_irma": 535,
+          "california_wildfires": 210,
+          "mexico_earthquake": 177,
+          "srilanka_floods": 110,
+          "iraq_iran_earthquake": 72
+        },
+        "label": {
+          "informative": 1407,
+          "not_informative": 830
+        },
+        "label_text": {
+          "informative": 1612,
+          "not_informative": 625
+        },
+        "label_image": {
+          "informative": 1164,
+          "not_informative": 1073
+        },
+        "label_text_image": {
+          "Positive": 1573,
+          "Negative": 664
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_informative_text_img_test.tsv",
+      "rows": 2237,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str",
+        "label_text": "str",
+        "label_image": "str",
+        "label_text_image": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "guessed_id_column": "tweet_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0,
+        "label_text": 0,
+        "label_image": 0,
+        "label_text_image": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 0,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_harvey": 568,
+          "hurricane_irma": 548,
+          "hurricane_maria": 542,
+          "california_wildfires": 240,
+          "mexico_earthquake": 159,
+          "srilanka_floods": 107,
+          "iraq_iran_earthquake": 73
+        },
+        "label": {
+          "informative": 1373,
+          "not_informative": 864
+        },
+        "label_text": {
+          "informative": 1612,
+          "not_informative": 625
+        },
+        "label_image": {
+          "informative": 1151,
+          "not_informative": 1086
+        },
+        "label_text_image": {
+          "Positive": 1534,
+          "Negative": 703
+        }
+      }
+    },
+    {
+      "file": "crisismmd_datasplit_all/task_informative_text_img_train.tsv",
+      "rows": 13608,
+      "columns": [
+        "event_name",
+        "tweet_id",
+        "image_id",
+        "tweet_text",
+        "image",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "dtypes": {
+        "event_name": "str",
+        "tweet_id": "str",
+        "image_id": "str",
+        "tweet_text": "str",
+        "image": "str",
+        "label": "str",
+        "label_text": "str",
+        "label_image": "str",
+        "label_text_image": "str"
+      },
+      "guessed_text_column": "tweet_text",
+      "guessed_label_columns": [
+        "event_name",
+        "label",
+        "label_text",
+        "label_image",
+        "label_text_image"
+      ],
+      "guessed_id_column": "image_id",
+      "missing_values": {
+        "event_name": 0,
+        "tweet_id": 0,
+        "image_id": 0,
+        "tweet_text": 0,
+        "image": 0,
+        "label": 0,
+        "label_text": 0,
+        "label_image": 0,
+        "label_text_image": 0
+      },
+      "duplicate_rows": 0,
+      "duplicate_text_values": 2024,
+      "class_distributions": {
+        "event_name": {
+          "hurricane_maria": 3462,
+          "hurricane_irma": 3421,
+          "hurricane_harvey": 3285,
+          "california_wildfires": 1139,
+          "mexico_earthquake": 1044,
+          "srilanka_floods": 805,
+          "iraq_iran_earthquake": 452
+        },
+        "label": {
+          "informative": 8341,
+          "not_informative": 5267
+        },
+        "label_text": {
+          "informative": 9638,
+          "not_informative": 3970
+        },
+        "label_image": {
+          "informative": 7059,
+          "not_informative": 6549
+        },
+        "label_text_image": {
+          "Positive": 9601,
+          "Negative": 4007
+        }
+      }
+    }
+  ],
+  "num_files_with_cross_overlap_texts": 16058
+}

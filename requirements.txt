@@ -1,0 +1,8 @@
+pandas
+numpy
+scikit-learn
+emoji
+jupyter
+nbformat
+matplotlib
+seaborn

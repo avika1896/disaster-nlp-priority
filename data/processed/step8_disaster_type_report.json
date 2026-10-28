@@ -1,0 +1,169 @@
+{
+  "all_16k_tweets": {
+    "n": 16058,
+    "coverage_pct": 46.01,
+    "accuracy_on_covered_pct": 90.03,
+    "accuracy_overall_unknown_counts_as_wrong_pct": 41.42,
+    "confusion": {
+      "Earthquake": {
+        "Earthquake": 1500,
+        "Unknown": 220,
+        "Hurricane": 13,
+        "Volcano": 1
+      },
+      "Flood": {
+        "Flood": 206,
+        "Unknown": 531,
+        "Landslide": 11,
+        "Hurricane": 80,
+        "Tornado": 2
+      },
+      "Hurricane": {
+        "Hurricane": 3982,
+        "Unknown": 7407,
+        "Tornado": 328,
+        "Flood": 270,
+        "Earthquake": 15,
+        "Wildfire": 5,
+        "Landslide": 1
+      },
+      "Wildfire": {
+        "Wildfire": 964,
+        "Unknown": 511,
+        "Hurricane": 8,
+        "Earthquake": 2,
+        "Tornado": 1
+      }
+    },
+    "per_event": {
+      "california_wildfires": {
+        "n": 1486,
+        "coverage_pct": 65.61,
+        "accuracy_on_covered_pct": 98.87
+      },
+      "hurricane_harvey": {
+        "n": 3992,
+        "coverage_pct": 37.02,
+        "accuracy_on_covered_pct": 62.58
+      },
+      "hurricane_irma": {
+        "n": 4021,
+        "coverage_pct": 43.12,
+        "accuracy_on_covered_pct": 97.17
+      },
+      "hurricane_maria": {
+        "n": 3995,
+        "coverage_pct": 34.77,
+        "accuracy_on_covered_pct": 98.78
+      },
+      "iraq_iran_earthquake": {
+        "n": 496,
+        "coverage_pct": 96.37,
+        "accuracy_on_covered_pct": 100.0
+      },
+      "mexico_earthquake": {
+        "n": 1238,
+        "coverage_pct": 83.68,
+        "accuracy_on_covered_pct": 98.65
+      },
+      "srilanka_floods": {
+        "n": 830,
+        "coverage_pct": 36.02,
+        "accuracy_on_covered_pct": 68.9
+      }
+    },
+    "error_examples": [
+      {
+        "text": "#FloodSL 200+ deaths reported due to floods and landslides in Sri Lanka #lka #HelpSriLanka https://t.co/QnbB8kFhZQ",
+        "reference": "Flood",
+        "predicted": "Landslide",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "RT @shafiur: Misery in the #rohingya #refugee camps after Cyclone Mora. Walls and roofs blown away. #bangladesh https://t.co/QpA6DmNvyS",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "Everything is funny to us. We forget that, the cyclone #Mora was very much real for so many people. https://t.co/W686wmF9ad",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "Cyclone Mora adds to Rohingya's plight in Bangladesh https://t.co/WaIAhIDo4y https://t.co/aG3soF3a5N",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "Rohingya camps in Bangladesh destroyed by Cyclone Mora | Bangladesh News - https://t.co/p0nTvP1Vht camps ... https://t.co/0JLQhTz6sI",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "Indian Navy rescues 33 Bangladeshis as Cyclone Mora kills 9 https://t.co/RzD9Y1eSSN https://t.co/Un2kyTqbU0",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "UN update on 31 May on monsoon floods and landslides in #SriLanka @UNSriLanka https://t.co/Is0vwRRkQp https://t.co/lSDIZEO9gy",
+        "reference": "Flood",
+        "predicted": "Landslide",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "#world #news For Rohingya refugees, makeshift homes no match for Cyclone Mora https://t.co/J9BUkKc66D https://t.co/TiqgXmsSBK",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "RT @coconutsdotco: Cyclone Mora tears through homes in Rakhine State https://t.co/DwHMPx6yG6 https://t.co/oyZrQ6TNaj",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "Cyclone Mora Wreaks Devastation Along Myanmarâ€™s Western Coast, Killing One https://t.co/XqXWW6vUlI https://t.co/gBKoQOm5qk",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "RT @NASAEarth: Cyclone Mora Makes Landfall https://t.co/UOft2ESjNK #NASA https://t.co/UrTvznQFkm",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "Cyclone Mora has devastating impact on Rohingya Refugee Camps in Bangladesh. Details here: https://t.co/z473rsT0jf https://t.co/MmA6HKcLJQ",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "After cyclone #mora #RCY Rangamati is in action with fire service BD. https://t.co/lwiU0DPqT5",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "Cyclone Mora: 4 Odisha districts put #HollywoodBoxOffice #Streaming #StreamingTV #comcast https://t.co/RKymi0vR6d https://t.co/3eucqoapWa",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      },
+      {
+        "text": "https://t.co/QnTzWx6tGI 300,000 people evacuated, airports closed post Cyclone Mora https://t.co/tCMkitkrbi",
+        "reference": "Flood",
+        "predicted": "Hurricane",
+        "event": "srilanka_floods"
+      }
+    ]
+  },
+  "note": "Reference labels come from the event name (dataset metadata), not per-tweet annotation."
+}

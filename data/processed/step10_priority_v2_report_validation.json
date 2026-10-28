@@ -1,0 +1,35 @@
+{
+  "split": "validation",
+  "n": 2210,
+  "approximation": "top category used as probability 1.0",
+  "cutoffs": {
+    "high": 22.0,
+    "medium": 12.0
+  },
+  "tier_pct": {
+    "LOW": 71.5,
+    "MEDIUM": 18.4,
+    "HIGH": 10.1
+  },
+  "percentiles": {
+    "50": 6.7,
+    "65": 9.6,
+    "70": 11.5,
+    "75": 13.2,
+    "80": 14.6,
+    "85": 16.2,
+    "90": 22.1,
+    "95": 29.7,
+    "99": 39.7
+  },
+  "mean_score_by_true_category": {
+    "injured_or_dead_people": 30.6,
+    "vehicle_damage": 25.1,
+    "affected_individuals": 19.2,
+    "missing_or_found_people": 19.1,
+    "infrastructure_and_utility_damage": 16.5,
+    "rescue_volunteering_or_donation_effort": 11.9,
+    "other_relevant_information": 7.3,
+    "not_humanitarian": 3.4
+  }
+}

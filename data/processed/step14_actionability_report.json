@@ -1,0 +1,251 @@
+{
+  "note": "Reference = mapping applied to dataset category, NOT a human actionability label.",
+  "validation": {
+    "accuracy": 0.8113,
+    "macro": {
+      "precision": 0.7981,
+      "recall": 0.8216,
+      "f1": 0.803
+    },
+    "per_class": {
+      "not_actionable": {
+        "precision": 0.9094,
+        "recall": 0.7866,
+        "f1": 0.8435,
+        "support": 1429
+      },
+      "actionable": {
+        "precision": 0.6869,
+        "recall": 0.8566,
+        "f1": 0.7624,
+        "support": 781
+      }
+    },
+    "labels": [
+      "not_actionable",
+      "actionable"
+    ],
+    "confusion_matrix": [
+      [
+        1124,
+        305
+      ],
+      [
+        112,
+        669
+      ]
+    ],
+    "n": 2210,
+    "share_actionable_in_reference_pct": 35.34,
+    "false_positive_count": 305,
+    "false_negative_count": 112,
+    "false_positive_examples": [
+      {
+        "text_original": "New #Evacuation List: School closures ahead of Hurricane Irma https://t.co/dNsXugStbP via @10NewsWTSP #school https://t.co/uXV04ZB6nV",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "infrastructure_and_utility_damage"
+      },
+      {
+        "text_original": "30A TV UPDATE Jazzfest Star to Play Irma Benefit Friday https://t.co/OUZYxgi2xi @30abuzz #30atv #30a https://t.co/GGwzkxuhSw",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "rescue_volunteering_or_donation_effort"
+      },
+      {
+        "text_original": "#Housefire Ignites Hillside; #Santa Cruz Mountain: https://t.co/lFwiOtvf6L, https://t.co/pfUCIAhERA https://t.co/qwvLzaXjB0",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "infrastructure_and_utility_damage"
+      },
+      {
+        "text_original": "Police Escort Hurricane Harvey Cattle Drive https://t.co/qNz5CmwGt2 #fakenews #propaganda https://t.co/x2p8fmq2Ao",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "rescue_volunteering_or_donation_effort"
+      },
+      {
+        "text_original": "Connected Cars Detect Mexico Earthquake https://t.co/d8yZDR7oB1 https://t.co/HvcLML5Gi1",
+        "humanitarian_category": "not_humanitarian",
+        "pred_category": "rare_humanitarian"
+      },
+      {
+        "text_original": "A brigade of architects and engineers rushed to assess earthquake damage in Mexico City https://t.co/YwMQDD74p0 https://t.co/ncIlUofaO9",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "infrastructure_and_utility_damage"
+      },
+      {
+        "text_original": "Harvey Evacuees Face Days In DFW Shelters https://t.co/6bZyeqcn6p https://t.co/eziCWEqsFj",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "affected_individuals"
+      },
+      {
+        "text_original": "Leave a note for people affected by Harvey and Irma https://t.co/juh39jyDeo https://t.co/XR0CLf48C8",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "affected_individuals"
+      }
+    ],
+    "false_negative_examples": [
+      {
+        "text_original": "Bipartisan Group Of Senators To Visit Puerto Rico To Survey Maria Damage https://t.co/13Me0ShY0R https://t.co/UMHUTiolM5",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "Hurricane Harvey Debilitates Texas Coastlin #CalStateLA #CSULA https://t.co/1NlTyk6fuO https://t.co/RXY7A1ZfQg",
+        "humanitarian_category": "infrastructure_and_utility_damage",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "Tomorrow 7-11 pm @wynwoodyard #irma relief concert! @magicityhippies @elasticbond @LocosPorJuana @chantilmusic‚Ä¶ https://t.co/8J4g2AHcHh",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "not_humanitarian"
+      },
+      {
+        "text_original": "RT @csmonitor: #MonitorsView: Why the world better manages water crises like Harvey https://t.co/ZIz37b7MeA https://t.co/rGnys2T8WN",
+        "humanitarian_category": "infrastructure_and_utility_damage",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "#Mobilehomes battered but largely intact after #Irma - https://t.co/I9llFClJm2 #manufacturedhomes https://t.co/xPNaOkEkkv",
+        "humanitarian_category": "infrastructure_and_utility_damage",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "Become Remarkable Podcast — Preparing for a Storm Bigger than Irma https://t.co/VnIlPS4AE3 https://t.co/bBSbBjop5x",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "Awards for the impromptu Hurricane Irma XC Invite https://t.co/xkvTVoP4QD https://t.co/rzP5BlCjKX",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "Expanding the Lyons Pride! This is Hector, a refugee from Puerto Rico (via Wake Co SPCA). https://t.co/I50kvfUphk",
+        "humanitarian_category": "affected_individuals",
+        "pred_category": "not_humanitarian"
+      }
+    ]
+  },
+  "test": {
+    "accuracy": 0.8149,
+    "macro": {
+      "precision": 0.7976,
+      "recall": 0.8197,
+      "f1": 0.8039
+    },
+    "per_class": {
+      "not_actionable": {
+        "precision": 0.9022,
+        "recall": 0.8042,
+        "f1": 0.8503,
+        "support": 1445
+      },
+      "actionable": {
+        "precision": 0.6931,
+        "recall": 0.8353,
+        "f1": 0.7576,
+        "support": 765
+      }
+    },
+    "labels": [
+      "not_actionable",
+      "actionable"
+    ],
+    "confusion_matrix": [
+      [
+        1162,
+        283
+      ],
+      [
+        126,
+        639
+      ]
+    ],
+    "n": 2210,
+    "share_actionable_in_reference_pct": 34.62,
+    "false_positive_count": 283,
+    "false_negative_count": 126,
+    "false_positive_examples": [
+      {
+        "text_original": "BLOG: Energy Department responders are on the ground assisting hurricane recovery ‚ñ∂ https://t.co/D7WtCIYlhW #Irma https://t.co/DEgfEE79FY",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "rescue_volunteering_or_donation_effort"
+      },
+      {
+        "text_original": "Texas families fear their land has been poisoned w dioxins by waste pits - @chrondigger https://t.co/gbtm7232Gm https://t.co/yGZWPBqcZh",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "affected_individuals"
+      },
+      {
+        "text_original": "Can Elon Musk fix Puerto Rico's broken power grid? https://t.co/4cA3hyIbWb via @mrslac2017 #socialmedia #mlm https://t.co/zxXdIyv3Ac",
+        "humanitarian_category": "not_humanitarian",
+        "pred_category": "infrastructure_and_utility_damage"
+      },
+      {
+        "text_original": "I happened to be in Mexico City during the 19 Sep earthquake. Volunteer first responder here. https://t.co/ADKU5qaQFa",
+        "humanitarian_category": "not_humanitarian",
+        "pred_category": "rescue_volunteering_or_donation_effort"
+      },
+      {
+        "text_original": "Good morning! Hugs if you need them. Sending good thoughts to those affected by Hurricane Maria &amp; Mexico. âœŒá¼¿Câ¤ï¸á½™6á¼¿C https://t.co/K1bKduItsv",
+        "humanitarian_category": "not_humanitarian",
+        "pred_category": "rescue_volunteering_or_donation_effort"
+      },
+      {
+        "text_original": "RT @Independent: Salma Hayek recalls how she survived the 1985 Mexico earthquake https://t.co/vXk9l5vOgm https://t.co/rpvOa6YGSR",
+        "humanitarian_category": "not_humanitarian",
+        "pred_category": "affected_individuals"
+      },
+      {
+        "text_original": "RT @KUAdirect: Our crews have arrived safely in San Juan, Puerto Rico! á¼ŸAá¼Ÿ8 âœˆï¸ á¼Ÿ5á¼Ÿ7 #mutualaid #PublicPower #PuertoRico https://t.co/2FyzjU9GIV",
+        "humanitarian_category": "not_humanitarian",
+        "pred_category": "rescue_volunteering_or_donation_effort"
+      },
+      {
+        "text_original": "Twins’ manager Paul Molitor concerned for players with families in path of Hurricane Irma https://t.co/pvPxO3cdp4 https://t.co/KR5moFIA1f",
+        "humanitarian_category": "other_relevant_information",
+        "pred_category": "affected_individuals"
+      }
+    ],
+    "false_negative_examples": [
+      {
+        "text_original": "RT @waff48: WILD VIDEO: Hawk hitches ride in Houston cab during Harvey #HurricaneHarvey &gt;&gt; https://t.co/fdSe3vwwz2 https://t.co/364BIEiHp3",
+        "humanitarian_category": "vehicle_damage",
+        "pred_category": "not_humanitarian"
+      },
+      {
+        "text_original": "Disaster Response In The 21st Century: #BigData And #IoT Save Lives: https://t.co/wuTn2YzDxz @Forbes #Irma #Harvey https://t.co/mcj6DE3GdI",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "Yankees, Red Sox pause rivalry in auction for Harvey relief https://t.co/OPuhRfiUlP https://t.co/KbfUJQCogA",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "not_humanitarian"
+      },
+      {
+        "text_original": "Hey @CincinnatiZoo, three guesses what we named our @louieslegacy foster pup pulled from Hurricane Irma: https://t.co/RA45TQMpvW",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "US failures on Rohingya, civilian casualties and hurricane Maria  https://t.co/dT4MzWw3n8 #bearday #Iran #usa https://t.co/Hb9J9yNL0b",
+        "humanitarian_category": "injured_or_dead_people",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "US photographer who shot Mexico earthquake in 1985 hurt in 2017's https://t.co/rXASUL1GPK https://t.co/43nD7R723b",
+        "humanitarian_category": "injured_or_dead_people",
+        "pred_category": "not_humanitarian"
+      },
+      {
+        "text_original": "Warning: many school zone signs are down or inoperative due to Irma. https://t.co/wDZhBOkKZe https://t.co/OqP0FCED1Q",
+        "humanitarian_category": "infrastructure_and_utility_damage",
+        "pred_category": "other_relevant_information"
+      },
+      {
+        "text_original": "Change of plans. One Mickey Mantle @Yankees ball goes during tonight's game. $ for Puerto Rico. 1st bid $500 https://t.co/kh4YzsNWAX",
+        "humanitarian_category": "rescue_volunteering_or_donation_effort",
+        "pred_category": "not_humanitarian"
+      }
+    ]
+  }
+}

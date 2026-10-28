@@ -1,0 +1,592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Disaster Tweet Priority</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:#14213d; --ink-2:#2a3d68;
+    --paper:#eef1f6; --surface:#ffffff;
+    --line:#d3dae6; --line-2:#e5eaf2;
+    --text:#18233b; --muted:#56637b; --faint:#8794aa;
+    --high:#c8102e; --high-bg:#fdebee;
+    --med:#a35b00; --med-fill:#e58a00; --med-bg:#fff1da;
+    --low:#2c5f8d; --low-fill:#4f86b8; --low-bg:#e6eff8;
+    --ok:#3fbf7a; --bad:#ff7a7a;
+    --focus:#2d6cdf;
+  }
+  * { box-sizing:border-box; }
+  html { -webkit-text-size-adjust:100%; }
+  body { margin:0; background:var(--paper); color:var(--text);
+         font-family:"Schibsted Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         font-size:15px; line-height:1.5; font-variant-numeric:tabular-nums; }
+  h1,h2,h3,p,ol,dl,dd { margin:0; }
+  ol { padding:0; list-style:none; }
+  button { font:inherit; color:inherit; }
+  :focus-visible { outline:3px solid var(--focus); outline-offset:2px; border-radius:4px; }
+  .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  .wrap { max-width:1180px; margin:0 auto; padding:0 24px; }
+
+  /* Header */
+  .top { background:var(--ink); color:#fff; padding:34px 0 40px; position:relative; overflow:hidden; }
+  .top-inner { display:flex; gap:24px; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; position:relative; z-index:1; }
+  .ripples { position:absolute; right:-70px; top:50%; transform:translateY(-50%); width:440px; height:440px;
+             color:rgba(255,255,255,.08); pointer-events:none; }
+  .top h1 { font-size:clamp(28px,3.4vw,38px); font-weight:800; letter-spacing:-0.025em; line-height:1.1; }
+  .top p { margin-top:10px; max-width:58ch; color:#b8c3d9; font-size:16px; }
+  .status { display:inline-flex; align-items:center; gap:9px; padding:7px 14px; border-radius:99px;
+            background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.18); font-size:14px; font-weight:500; }
+  .status .dot { width:9px; height:9px; border-radius:50%; background:#8794aa; }
+  .status.ok .dot { background:var(--ok); }
+  .status.bad .dot { background:var(--bad); }
+
+  /* Layout */
+  .layout { display:grid; grid-template-columns:minmax(300px,380px) minmax(0,1fr); gap:28px; align-items:start; padding-top:28px; padding-bottom:12px; }
+  .panel { background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:20px; }
+  .input { position:sticky; top:16px; }
+  .panel h2, .queue-head h2 { font-size:19px; font-weight:700; letter-spacing:-0.01em; }
+  .field-label { display:block; margin-top:14px; margin-bottom:6px; font-size:14px; font-weight:600; }
+  textarea, input[type=text] { width:100%; font:inherit; color:var(--text); background:#fff; border:1px solid var(--line);
+            border-radius:6px; padding:10px 12px; }
+  textarea { min-height:250px; resize:vertical; line-height:1.5; margin-top:12px; }
+  textarea:focus, input[type=text]:focus { outline:3px solid rgba(45,108,223,.28); border-color:var(--focus); }
+  textarea::placeholder, input::placeholder { color:var(--faint); }
+  .hint { color:var(--muted); font-size:13px; margin-top:6px; }
+  .actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:16px; }
+  .btn { border-radius:6px; padding:10px 16px; font-weight:600; cursor:pointer; border:1px solid transparent; }
+  .btn.primary { background:var(--ink); color:#fff; }
+  .btn.primary:hover { background:var(--ink-2); }
+  .btn.ghost { background:transparent; border-color:var(--line); color:var(--text); }
+  .btn.ghost:hover { background:var(--paper); }
+  .btn:disabled { opacity:.55; cursor:progress; }
+  .error { margin-top:14px; padding:12px 14px; border-radius:6px; background:var(--high-bg); color:#7d0a1d;
+           border:1px solid #f1c0c8; font-size:14px; white-space:pre-wrap; }
+  .error[hidden] { display:none; }
+  .conn { margin-top:18px; border-top:1px solid var(--line-2); padding-top:12px; }
+  .conn summary { cursor:pointer; font-size:14px; color:var(--muted); font-weight:500; }
+  .conn input { margin-top:10px; }
+
+  /* Queue */
+  .queue-head { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; }
+  .queue-head .meta { color:var(--muted); font-size:14px; flex:1; }
+  .queue-head .btn { padding:7px 12px; font-size:14px; }
+  .summary { margin-top:16px; }
+  .segbar { display:flex; height:14px; border-radius:7px; overflow:hidden; background:var(--line-2); gap:2px; }
+  .seg { display:block; min-width:6px; }
+  .seg.high { background:var(--high); } .seg.medium { background:var(--med-fill); } .seg.low { background:var(--low-fill); }
+  .filters { display:flex; gap:8px; flex-wrap:wrap; margin-top:12px; }
+  .filter { background:var(--surface); border:1px solid var(--line); border-radius:99px; padding:5px 13px; cursor:pointer; font-size:14px; font-weight:500; }
+  .filter b { font-weight:700; margin-left:4px; }
+  .filter[aria-pressed="true"] { background:var(--ink); border-color:var(--ink); color:#fff; }
+  .empty { margin-top:16px; border:1.5px dashed var(--line); border-radius:12px; padding:40px 28px; background:rgba(255,255,255,.55); }
+  .empty h3 { font-size:20px; font-weight:700; letter-spacing:-0.01em; }
+  .steps { margin:18px 0 22px; counter-reset:step; display:grid; gap:14px; max-width:52ch; }
+  .steps li { counter-increment:step; display:grid; grid-template-columns:30px minmax(0,1fr); gap:12px; align-items:start; color:var(--muted); }
+  .steps li::before { content:counter(step); width:30px; height:30px; border-radius:50%; background:var(--ink); color:#fff;
+                      display:grid; place-items:center; font-weight:700; font-size:14px; }
+  .steps b { color:var(--text); font-weight:700; }
+  .item:hover { box-shadow:0 8px 24px rgba(20,33,61,.09); }
+  .list { margin-top:16px; }
+
+  .item { display:grid; grid-template-columns:10px minmax(0,1fr); background:var(--surface); border:1px solid var(--line);
+          border-radius:12px; overflow:hidden; margin-bottom:10px; }
+  .item.high { --fill:var(--high); --bg:var(--high-bg); --fg:var(--high); }
+  .item.medium { --fill:var(--med-fill); --bg:var(--med-bg); --fg:var(--med); }
+  .item.low { --fill:var(--low-fill); --bg:var(--low-bg); --fg:var(--low); }
+  .spine { position:relative; background:var(--bg); }
+  .spine span { position:absolute; left:0; right:0; bottom:0; background:var(--fill); }
+  .item-btn { display:grid; grid-template-columns:26px minmax(0,1fr) auto; gap:14px; width:100%; text-align:left;
+              background:none; border:0; padding:16px 18px 16px 14px; cursor:pointer; align-items:start; }
+  .item-btn:hover { background:#fafbfd; }
+  .rank { color:var(--faint); font-weight:600; padding-top:2px; font-size:14px; }
+  .tweet { font-size:16px; font-weight:500; line-height:1.45; max-width:70ch; overflow-wrap:anywhere; }
+  .meta-row { display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin-top:10px; font-size:13px; color:var(--muted); }
+  .badge { background:var(--bg); color:var(--fg); font-weight:700; font-size:13px; padding:2px 9px; border-radius:4px; text-transform:capitalize; }
+  .k { color:var(--faint); margin-right:5px; }
+  .chip { display:inline-block; font-size:13px; padding:1px 9px; border-radius:99px; background:var(--paper); border:1px solid var(--line-2); color:var(--text); margin:1px 4px 1px 0; }
+  .none { color:var(--faint); }
+  .toggle { margin-top:10px; font-size:13px; font-weight:600; color:var(--ink-2); text-decoration:underline; text-underline-offset:3px; display:inline-block; }
+  .score { text-align:center; min-width:78px; background:var(--bg); border-radius:10px; padding:10px 12px 9px; }
+  .score .num { font-size:30px; line-height:1; font-weight:800; color:var(--fg); letter-spacing:-0.02em; }
+  .score .lab { font-size:12px; font-weight:600; color:var(--fg); opacity:.8; margin-top:4px; }
+
+  .more { display:grid; grid-template-rows:0fr; transition:grid-template-rows .25s ease; }
+  .item.open .more { grid-template-rows:1fr; }
+  .clip { overflow:hidden; min-height:0; }
+  .more-inner { padding:2px 18px 20px 54px; border-top:1px solid var(--line-2); }
+  .detail-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:22px; margin-top:16px; }
+  .detail-grid h3 { font-size:14px; font-weight:700; margin-bottom:10px; }
+  .meter { display:grid; grid-template-columns:104px minmax(0,1fr) 48px; gap:10px; align-items:center; font-size:13px; margin:7px 0; }
+  .m-label { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; color:var(--muted); }
+  .track { height:6px; border-radius:3px; background:var(--line-2); overflow:hidden; }
+  .fill { display:block; height:100%; background:var(--ink-2); border-radius:3px; }
+  .m-val { text-align:right; font-weight:600; }
+  dl.facts { display:grid; grid-template-columns:118px minmax(0,1fr); gap:8px 10px; font-size:14px; }
+  dl.facts dt { color:var(--muted); }
+  .clean { margin-top:16px; font-size:13px; color:var(--muted); overflow-wrap:anywhere; }
+  .warn { margin-top:14px; background:var(--med-bg); border:1px solid #efd29c; border-radius:6px; padding:8px 12px; font-size:13px; color:#6b3d00; }
+
+  /* Method */
+  .method { padding:34px 0 64px; }
+  .method h2 { font-size:21px; font-weight:700; letter-spacing:-0.01em; }
+  .method .note { margin-top:8px; color:var(--muted); max-width:70ch; }
+  .cfg-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:20px; }
+  .cfg-grid .panel { padding:18px; }
+  .cfg-grid h3 { font-size:15px; font-weight:700; margin-bottom:10px; }
+
+  @media (max-width:900px) {
+    .layout { grid-template-columns:minmax(0,1fr); }
+    .input { position:static; }
+    .more-inner { padding-left:18px; }
+  }
+  @media (max-width:560px) {
+    .wrap { padding:0 16px; }
+    .item-btn { grid-template-columns:minmax(0,1fr) auto; }
+    .rank { display:none; }
+  }
+  @media (prefers-reduced-motion:reduce) { * { transition:none !important; } }
+
+  /* Step 13 additions */
+  .hint-inline { color:var(--muted); font-size:13px; }
+  .tag { font-size:13px; padding:2px 9px; border-radius:4px; border:1px solid var(--line); background:#fff; color:var(--text); }
+  .reasons { margin:0; padding-left:18px; font-size:14px; }
+  .reasons li { margin:4px 0; }
+  .detail-grid h3.gap { margin-top:18px; }
+  .tablewrap { margin-top:24px; }
+  .tablewrap h3 { font-size:17px; font-weight:700; margin:0 0 10px; }
+  .tscroll { overflow-x:auto; background:var(--surface); border:1px solid var(--line); border-radius:12px; }
+  .tscroll table { width:100%; border-collapse:collapse; font-size:14px; }
+  .tscroll th, .tscroll td { text-align:left; padding:10px 14px; border-bottom:1px solid var(--line-2); vertical-align:top; }
+  .tscroll th { font-weight:600; color:var(--muted); white-space:nowrap; }
+  .tscroll tbody tr:last-child td { border-bottom:0; }
+  .tscroll td.post { max-width:380px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .tscroll td.num-cell { font-weight:600; }
+  .lv-high { background:var(--high-bg); color:var(--high); }
+  .lv-medium { background:var(--med-bg); color:var(--med); }
+  .lv-low { background:var(--low-bg); color:var(--low); }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <svg class="ripples" viewBox="0 0 400 400" aria-hidden="true">
+    <g fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="200" cy="200" r="40"/><circle cx="200" cy="200" r="85"/><circle cx="200" cy="200" r="130"/>
+      <circle cx="200" cy="200" r="175"/>
+    </g>
+    <circle cx="200" cy="200" r="7" fill="#e58a00"/>
+  </svg>
+  <div class="wrap top-inner">
+    <div>
+      <h1>Disaster Tweet Priority</h1>
+      <p>Reads crisis tweets, pulls out the locations, needs and casualty counts, and ranks them by how urgently they need a response.</p>
+    </div>
+    <div id="status" class="status" role="status"><span class="dot"></span><span id="statusText">Checking API</span></div>
+  </div>
+</header>
+
+<main class="wrap layout">
+  <section class="panel input" aria-labelledby="inTitle">
+    <h2 id="inTitle">Tweets to score</h2>
+    <label class="sr-only" for="input">Tweets, one per line</label>
+    <textarea id="input" placeholder="Paste tweets here, one per line. A single line is scored on its own; several lines are ranked together (up to 100)."></textarea>
+    <p class="hint"><span id="count">0 tweets</span>. Press Ctrl+Enter (Cmd+Enter on Mac) to analyze.</p>
+
+    <label class="field-label" for="event">Disaster event key (optional)</label>
+    <input id="event" type="text" placeholder="for example hurricane_maria" autocomplete="off">
+    <p class="hint">Used only as a fallback when the text does not name the disaster or the place.</p>
+
+    <div class="actions">
+      <button id="go" class="btn primary" type="button">Analyze posts</button>
+      <button id="examples" class="btn ghost" type="button">Load examples</button>
+      <button id="clear" class="btn ghost" type="button">Clear</button>
+    </div>
+    <div id="error" class="error" role="alert" hidden></div>
+
+    <details class="conn">
+      <summary>API address</summary>
+      <label class="sr-only" for="base">API address</label>
+      <input id="base" type="text" value="http://127.0.0.1:8000" autocomplete="off">
+    </details>
+  </section>
+
+  <section class="queue" aria-labelledby="qTitle">
+    <div class="queue-head">
+      <h2 id="qTitle">Triage queue</h2>
+      <span class="meta" id="qMeta"></span>
+      <button id="csv" class="btn ghost" type="button" hidden>Download CSV</button>
+    </div>
+
+    <div id="summary" class="summary" hidden>
+      <div id="segbar" class="segbar" aria-hidden="true"></div>
+      <div id="filters" class="filters" role="group" aria-label="Filter by priority tier"></div>
+    </div>
+
+    <div id="empty" class="empty">
+      <h3>Start with a few tweets</h3>
+      <ol class="steps">
+        <li><span><b>Paste</b> tweets into the box, one per line.</span></li>
+        <li><span><b>Analyze</b> them to rank the most urgent first.</span></li>
+        <li><span><b>Open</b> any result to see the locations, needs and casualty counts it found.</span></li>
+      </ol>
+      <button id="demo" class="btn primary" type="button">Try six example tweets</button>
+    </div>
+
+    <ol id="list" class="list"></ol>
+
+    <div id="tableWrap" class="tablewrap" hidden>
+      <h3>All analyzed posts</h3>
+      <div class="tscroll">
+        <table>
+          <thead><tr><th>Post</th><th>Disaster</th><th>Location</th><th>Urgency</th><th>Priority</th><th>Level</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<section class="method">
+  <div class="wrap">
+    <h2>How the score is calculated</h2>
+    <div id="methodBody"><p class="note">Loading scoring configuration…</p></div>
+  </div>
+</section>
+
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const base = () => $("base").value.trim().replace(/\/+$/, "");
+const SCALE = 100;                       // priority_score is on a 0-100 scale
+const state = { results: [], filter: "all", labels: {}, open: new Set() };
+
+/* Safe DOM builder: all content goes in as text, so tweet text can never inject HTML. */
+function el(tag, props, ...kids) {
+  const n = document.createElement(tag);
+  if (props) for (const [k, v] of Object.entries(props)) {
+    if (k === "class") n.className = v;
+    else if (k === "style" || k === "colspan" || k.startsWith("aria-") || k === "title") n.setAttribute(k, v);
+    else n[k] = v;
+  }
+  for (const k of kids.flat()) if (k != null) n.append(k.nodeType ? k : document.createTextNode(String(k)));
+  return n;
+}
+const clamp01 = (v) => Math.max(0, Math.min(1, Number(v) || 0));
+const pct = (x) => (x * 100).toFixed(1) + "%";
+const yesNo = (b) => (b ? "Yes" : "No");
+const unknown = (v) => v === "Unknown";
+const chips = (arr) => (arr && arr.length)
+  ? arr.map((t) => el("span", { class: "chip" }, t))
+  : el("span", { class: "none" }, "none");
+const val = (v) => unknown(v) ? el("span", { class: "none" }, "Unknown") : v;
+
+function tierKey(t) {
+  const v = String(t || "").toLowerCase();
+  if (v.includes("high") || v.includes("critical") || v.includes("urgent")) return "high";
+  if (v.includes("med")) return "medium";
+  return "low";
+}
+
+async function api(path, opts) {
+  let r;
+  try { r = await fetch(base() + path, opts); }
+  catch (_) { throw new Error("NETWORK"); }
+  if (!r.ok) {
+    let msg = "The API answered " + r.status + " " + r.statusText + ".";
+    try { const j = await r.json(); msg += "\n" + JSON.stringify(j.detail ?? j, null, 2); } catch (_) {}
+    throw new Error(msg);
+  }
+  return r.json();
+}
+
+/* ---------- Status and configuration ---------- */
+function setStatus(kind, text) {
+  $("status").className = "status " + kind;
+  $("statusText").textContent = text;
+}
+
+function meter(label, frac, text) {
+  return el("div", { class: "meter" },
+    el("span", { class: "m-label", title: label }, label),
+    el("span", { class: "track" }, el("span", { class: "fill", style: "width:" + clamp01(frac) * 100 + "%" })),
+    el("span", { class: "m-val" }, text));
+}
+const fmt = (v) => Number.isInteger(v) ? String(v) : v.toFixed(2);
+
+function weightPanel(title, obj) {
+  if (!obj || typeof obj !== "object") return null;
+  const entries = Object.entries(obj);
+  const nums = entries.map(([, v]) => v).filter((v) => typeof v === "number");
+  const max = Math.max(...nums, 0) || 1;
+  return el("div", { class: "panel" }, el("h3", null, title),
+    ...entries.map(([k, v]) => typeof v === "number"
+      ? meter(k.replace(/_/g, " "), v / max, fmt(v))
+      : el("div", { class: "meter" }, el("span", { class: "m-label", title: k }, k), el("span"), el("span", { class: "m-val" }, JSON.stringify(v)))));
+}
+
+function factsPanel(title, rows) {
+  const dl = el("dl", { class: "facts" });
+  rows.filter(([, v]) => v != null).forEach(([k, v]) => dl.append(el("dt", null, k), el("dd", null, String(v))));
+  return dl.children.length ? el("div", { class: "panel" }, el("h3", null, title), dl) : null;
+}
+
+function renderConfig(cfg) {
+  const a = cfg.analysis_score;
+  let panels, note;
+  if (a) {
+    note = a.note || cfg.note;
+    panels = [
+      weightPanel("Priority factor weights", a.priority_weights),
+      weightPanel("Urgency base scores", a.urgency_base),
+      weightPanel("Human impact by category", a.human_impact_category_weights),
+      weightPanel("Need weights", cfg.need_weights),
+      factsPanel("Cut-offs", [
+        ["Priority HIGH from", a.tier_thresholds && a.tier_thresholds.high],
+        ["Priority MEDIUM from", a.tier_thresholds && a.tier_thresholds.medium],
+        ["Urgency HIGH from", a.urgency_cutoffs && a.urgency_cutoffs.high],
+        ["Urgency MEDIUM from", a.urgency_cutoffs && a.urgency_cutoffs.medium],
+        ["Casualty saturation", typeof cfg.casualty_saturation === "object" ? null : cfg.casualty_saturation]])
+    ];
+  } else {
+    note = cfg.note;
+    const t = cfg.tier_thresholds || {};
+    panels = [
+      weightPanel("Component weights", cfg.component_weights),
+      weightPanel("Category weights", cfg.category_weights),
+      weightPanel("Need weights", cfg.need_weights),
+      factsPanel("Cut-offs", [["High threshold", t.high], ["Medium threshold", t.medium], ["Casualty saturation", cfg.casualty_saturation]])
+    ];
+  }
+  $("methodBody").replaceChildren(
+    note ? el("p", { class: "note" }, note) : null,
+    el("div", { class: "cfg-grid" }, ...panels.filter(Boolean)));
+}
+
+async function refreshMeta() {
+  try {
+    const h = await api("/health");
+    setStatus(h.models_loaded ? "ok" : "bad", h.models_loaded ? "API online, models loaded" : "API online, models not loaded");
+  } catch (e) {
+    setStatus("bad", "API unreachable");
+    $("methodBody").replaceChildren(el("p", { class: "note" },
+      "Could not read the scoring configuration from " + base() + ". Start the API with: python -m uvicorn backend.main:app --port 8000"));
+    return;
+  }
+  try { renderConfig(await api("/config")); }
+  catch (e) { $("methodBody").replaceChildren(el("p", { class: "note" }, "Could not load the scoring configuration. " + e.message)); }
+}
+
+/* ---------- Results ---------- */
+function detailBlock(r) {
+  const x = r.extraction || {};
+  const c = r.components || {};
+  const comps = [["Informative", c.p_informative], ["Urgency", c.urgency], ["Human impact", c.human_impact],
+                 ["Assistance", c.assistance], ["Damage", c.damage], ["Location", c.location]]
+    .filter(([, v]) => typeof v === "number");
+
+  const analysis = el("dl", { class: "facts" },
+    el("dt", null, "Informative"), el("dd", null, yesNo(r.is_informative) + " (" + pct(r.informative_probability) + ")"),
+    el("dt", null, "Actionable"), el("dd", null, yesNo(r.is_actionable) + " (" + pct(r.actionable_probability) + ")"),
+    el("dt", null, "Disaster type"), el("dd", null, val(r.disaster_type)),
+    el("dt", null, "Location"), el("dd", null, val(r.location),
+      unknown(r.location) ? null : el("span", { class: "hint-inline" }, " from " + String(r.location_source).replace("_", " ") + ", confidence " + r.location_confidence)),
+    el("dt", null, "Incident"), el("dd", null, val(r.incident)),
+    el("dt", null, "Assistance"), el("dd", null, (r.assistance_all && r.assistance_all.length) ? chips(r.assistance_all) : val("Unknown")),
+    el("dt", null, "Affected people"), el("dd", null, yesNo(r.affected_people)),
+    el("dt", null, "Damage"), el("dd", null, unknown(r.damage) ? val("Unknown") : r.damage + (unknown(r.damage_severity) ? "" : ", " + r.damage_severity.toLowerCase())),
+    el("dt", null, "Category"), el("dd", null, r.predicted_category ? r.predicted_category.replace(/_/g, " ") : val("Unknown")));
+
+  const casualties = (x.casualties && x.casualties.length)
+    ? x.casualties.map((k) => el("span", { class: "chip" }, k.count + " " + k.type)) : el("span", { class: "none" }, "none");
+  const more = el("dl", { class: "facts" },
+    el("dt", null, "Casualties"), el("dd", null, casualties),
+    el("dt", null, "Max deaths"), el("dd", null, x.max_deaths == null ? el("span", { class: "none" }, "not mentioned") : String(x.max_deaths)),
+    el("dt", null, "Other places"), el("dd", null, chips(x.candidate_locations)),
+    el("dt", null, "Event region"), el("dd", null, chips(x.event_region)));
+
+  return el("div", { class: "more-inner" },
+    r.warning ? el("div", { class: "warn" }, r.warning) : null,
+    el("div", { class: "detail-grid" },
+      el("div", null, el("h3", null, "Analysis"), analysis),
+      el("div", null, el("h3", null, "Why this priority"),
+        el("ul", { class: "reasons" }, ...(r.priority_reasons || []).map((t) => el("li", null, t))),
+        el("h3", { class: "gap" }, "Score breakdown"),
+        ...comps.map(([k, v]) => meter(k, v, v.toFixed(2)))),
+      el("div", null, el("h3", null, "More extracted details"), more)));
+}
+
+function buildItem(r, i) {
+  const k = tierKey(r.priority_level);
+  const id = "detail-" + i;
+  const isOpen = state.open.has(i);
+  const li = el("li", { class: "item " + k + (isOpen ? " open" : "") });
+  const spine = el("div", { class: "spine", "aria-hidden": "true" },
+    el("span", { style: "height:" + clamp01(r.priority_score / SCALE) * 100 + "%" }));
+  const toggleText = el("span", { class: "toggle" }, isOpen ? "Hide details" : "Show details");
+
+  const btn = el("button", { class: "item-btn", type: "button", "aria-expanded": String(isOpen), "aria-controls": id },
+    el("span", { class: "rank" }, String(i + 1)),
+    el("span", null,
+      el("p", { class: "tweet" }, r.text),
+      el("span", { class: "meta-row" },
+        el("span", { class: "badge" }, r.priority_level),
+        el("span", { class: "tag" }, r.is_actionable ? "Actionable" : "Not actionable"),
+        el("span", null, el("span", { class: "k" }, "Disaster"), val(r.disaster_type)),
+        el("span", null, el("span", { class: "k" }, "Location"), val(r.location)),
+        el("span", null, el("span", { class: "k" }, "Assistance"), val(r.assistance_required)),
+        el("span", null, el("span", { class: "k" }, "Urgency"), String(r.urgency_score))),
+      toggleText),
+    el("span", { class: "score" },
+      el("div", { class: "num" }, r.priority_score.toFixed(1)),
+      el("div", { class: "lab" }, "priority")));
+
+  const more = el("div", { class: "more", id }, el("div", { class: "clip" }, detailBlock(r)));
+  btn.onclick = () => {
+    const open = !li.classList.contains("open");
+    li.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", String(open));
+    toggleText.textContent = open ? "Hide details" : "Show details";
+    if (open) state.open.add(i); else state.open.delete(i);
+  };
+  li.append(spine, el("div", null, btn, more));
+  return li;
+}
+
+function visible() {
+  return state.results.map((r, i) => [r, i]).filter(([r]) => state.filter === "all" || tierKey(r.priority_level) === state.filter);
+}
+
+function renderSummary() {
+  const counts = { high: 0, medium: 0, low: 0 };
+  state.labels = {};
+  state.results.forEach((r) => { const k = tierKey(r.priority_level); counts[k]++; if (!state.labels[k]) state.labels[k] = r.priority_level; });
+  const total = state.results.length;
+  const bar = $("segbar"); bar.replaceChildren();
+  ["high", "medium", "low"].forEach((k) => {
+    if (counts[k]) bar.append(el("span", { class: "seg " + k, style: "flex:" + counts[k], title: counts[k] + " " + (state.labels[k] || k) }));
+  });
+  const defs = [["all", "All", total], ["high", state.labels.high || "HIGH", counts.high],
+                ["medium", state.labels.medium || "MEDIUM", counts.medium], ["low", state.labels.low || "LOW", counts.low]];
+  const box = $("filters"); box.replaceChildren();
+  defs.forEach(([key, label, n]) => {
+    const b = el("button", { class: "filter", type: "button", "aria-pressed": String(state.filter === key) },
+      el("span", { style: "text-transform:capitalize" }, String(label).toLowerCase()), el("b", null, String(n)));
+    b.onclick = () => { state.filter = key; renderSummary(); renderList(); };
+    box.append(b);
+  });
+}
+
+function renderList() {
+  const list = $("list"); list.replaceChildren();
+  visible().forEach(([r, i]) => list.append(buildItem(r, i)));
+  renderTable();
+}
+
+function renderTable() {
+  const rows = visible();
+  $("tableWrap").hidden = rows.length === 0;
+  const body = $("tbody"); body.replaceChildren();
+  rows.forEach(([r, i]) => {
+    body.append(el("tr", null,
+      el("td", { class: "post", title: r.text }, r.text),
+      el("td", null, val(r.disaster_type)),
+      el("td", null, val(r.location)),
+      el("td", { class: "num-cell" }, String(r.urgency_score)),
+      el("td", { class: "num-cell" }, r.priority_score.toFixed(1)),
+      el("td", null, el("span", { class: "badge lv-" + tierKey(r.priority_level) }, r.priority_level))));
+  });
+}
+
+function render(results, meta) {
+  state.results = results; state.filter = "all"; state.open = new Set();
+  const has = results.length > 0;
+  $("empty").hidden = has; $("summary").hidden = !has; $("csv").hidden = !has;
+  $("qMeta").textContent = has ? meta : "";
+  if (has) { renderSummary(); renderList(); } else { $("list").replaceChildren(); $("tableWrap").hidden = true; }
+}
+
+/* ---------- Actions ---------- */
+function showError(msg) { const e = $("error"); e.textContent = msg; e.hidden = !msg; }
+const readLines = () => $("input").value.split("\n").map((s) => s.trim()).filter(Boolean);
+function updateCount() {
+  const n = readLines().length;
+  $("count").textContent = n + (n === 1 ? " tweet" : " tweets") + (n > 100 ? " (the limit is 100 per request)" : "");
+}
+
+async function score() {
+  showError("");
+  const lines = readLines();
+  if (!lines.length) { showError("Enter at least one tweet, or choose Load examples."); return; }
+  if (lines.length > 100) { showError("You entered " + lines.length + " tweets. Remove some so there are 100 or fewer."); return; }
+  const ev = $("event").value.trim() || null;
+  const btn = $("go"); btn.disabled = true; btn.textContent = "Analyzing…";
+  try {
+    const post = (path, body) => api(path, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
+    if (lines.length === 1) {
+      render([await post("/analyze", { text: lines[0], disaster_event: ev })], "1 post analyzed");
+    } else {
+      const out = await post("/analyze/batch", { tweets: lines.map((t) => ({ text: t, disaster_event: ev })) });
+      render(out.results, out.count + " posts ranked, most urgent first");
+    }
+    setStatus("ok", "API online, models loaded");
+    if (window.innerWidth <= 900) {
+      const calm = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      $("qTitle").scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "start" });
+    }
+  } catch (e) {
+    if (e.message === "NETWORK") {
+      setStatus("bad", "API unreachable");
+      showError("Can't reach the API at " + base() + ".\nStart it with: python -m uvicorn backend.main:app --port 8000\nIf it is running, allow this page's address in the CORS settings in backend/main.py.");
+    } else if (/404/.test(e.message)) {
+      showError("The API has no /analyze endpoint. Restart uvicorn so it loads the latest backend code.\n" + e.message);
+    } else showError(e.message);
+  } finally { btn.disabled = false; btn.textContent = "Analyze posts"; }
+}
+
+const EXAMPLES = [
+  "Building collapsed near the market in Mexico City, at least 8 people trapped under the rubble. We need rescue teams and ambulances now",
+  "Flood water has reached the second floor on our street. Families here need drinking water and blankets",
+  "Road to the bridge is closed after a landslide, two injured people are being carried to the clinic on foot",
+  "Power has been out across the district since morning and the hospital is running on generators after the hurricane",
+  "Praying for everyone affected by the storm tonight",
+  "Great turnout at the volunteer drive today, thank you all for coming"
+];
+
+function csvCell(v) {
+  let s = String(v ?? "");
+  if (/^[=+\-@]/.test(s)) s = "'" + s;
+  return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+}
+function downloadCsv() {
+  const head = ["rank", "text", "priority_score", "priority_level", "urgency_score", "disaster_type", "location", "incident",
+                "assistance_required", "affected_people", "damage", "damage_severity", "is_informative", "is_actionable",
+                "predicted_category", "priority_reasons"];
+  const lines = [head.join(",")].concat(state.results.map((r, i) => [
+    i + 1, r.text, r.priority_score, r.priority_level, r.urgency_score, r.disaster_type, r.location, r.incident,
+    r.assistance_required, r.affected_people, r.damage, r.damage_severity, r.is_informative, r.is_actionable,
+    r.predicted_category, (r.priority_reasons || []).join("; ")
+  ].map(csvCell).join(",")));
+  const url = URL.createObjectURL(new Blob([lines.join("\n")], { type: "text/csv" }));
+  const a = el("a", { href: url, download: "triage-queue.csv" });
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+$("go").onclick = score;
+$("input").addEventListener("input", updateCount);
+$("input").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) score(); });
+$("examples").onclick = () => { $("input").value = EXAMPLES.join("\n"); updateCount(); showError(""); };
+$("demo").onclick = () => { $("input").value = EXAMPLES.join("\n"); updateCount(); score(); };
+$("clear").onclick = () => { $("input").value = ""; updateCount(); showError(""); render([], ""); };
+$("csv").onclick = downloadCsv;
+$("base").onchange = refreshMeta;
+updateCount();
+refreshMeta();
+</script>
+</body>
+</html>

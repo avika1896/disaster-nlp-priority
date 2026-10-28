@@ -1,0 +1,19 @@
+{
+  "file": "validation.csv",
+  "n": 2210,
+  "tier_pct": {
+    "low": 81.9,
+    "medium": 17.0,
+    "high": 1.1
+  },
+  "mean_score_by_true_category": {
+    "injured_or_dead_people": 50.599998474121094,
+    "vehicle_damage": 32.29999923706055,
+    "affected_individuals": 30.200000762939453,
+    "missing_or_found_people": 30.100000381469727,
+    "infrastructure_and_utility_damage": 28.700000762939453,
+    "rescue_volunteering_or_donation_effort": 25.299999237060547,
+    "other_relevant_information": 15.5,
+    "not_humanitarian": 7.699999809265137
+  }
+}

@@ -1,0 +1,135 @@
+{
+  "file": "validation.csv",
+  "rows": 2210,
+  "coverage": {
+    "casualty count": {
+      "rows": 21,
+      "pct": 0.95
+    },
+    "need tag": {
+      "rows": 258,
+      "pct": 11.67
+    },
+    "gazetteer location": {
+      "rows": 960,
+      "pct": 43.44
+    },
+    "candidate location (not in gazetteer)": {
+      "rows": 266,
+      "pct": 12.04
+    }
+  },
+  "need_tag_counts": {
+    "evacuation": 31,
+    "food": 29,
+    "rescue": 43,
+    "medical": 26,
+    "power_utilities": 17,
+    "donations": 89,
+    "water": 4,
+    "shelter": 24,
+    "explicit_request": 12
+  },
+  "top_candidate_locations": [
+    [
+      "PuertoRico",
+      10
+    ],
+    [
+      "HurricaneMaria",
+      6
+    ],
+    [
+      "Northern California",
+      5
+    ],
+    [
+      "St",
+      4
+    ],
+    [
+      "NYC",
+      3
+    ],
+    [
+      "HurricaneHarvey",
+      3
+    ],
+    [
+      "US",
+      3
+    ],
+    [
+      "TX",
+      3
+    ],
+    [
+      "DR",
+      2
+    ],
+    [
+      "DC",
+      2
+    ],
+    [
+      "PR",
+      2
+    ],
+    [
+      "California Wildfires",
+      2
+    ],
+    [
+      "Tampa Bay",
+      2
+    ],
+    [
+      "South Florida",
+      2
+    ],
+    [
+      "Play Irma Benefit",
+      1
+    ],
+    [
+      "Dobbins Air Reserve",
+      1
+    ],
+    [
+      "Northwood",
+      1
+    ],
+    [
+      "Rebuild Puerto Rico",
+      1
+    ],
+    [
+      "Midst",
+      1
+    ],
+    [
+      "DFWShelters",
+      1
+    ],
+    [
+      "UFC",
+      1
+    ],
+    [
+      "Los Topos",
+      1
+    ],
+    [
+      "Syria",
+      1
+    ],
+    [
+      "Southern California",
+      1
+    ],
+    [
+      "Palm Beach",
+      1
+    ]
+  ]
+}
